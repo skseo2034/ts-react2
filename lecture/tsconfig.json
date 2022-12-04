@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
     "strict": true,
-    "lib": ["ES5", "ES2015", "ES2016",, "ES2017", "ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES5", "ES2015", "ES2016", "ES2017", "ES2020", "DOM", "DOM.Iterable"],
     "jsx" : "react"
   },
-  "include": [
-    "./src/main/webapp/resources/ts/**/*"
-  ],
   "exclude": [
     "node_modules",
     "dist",
