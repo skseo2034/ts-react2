@@ -1,5 +1,12 @@
-import * as  React  from 'react';
+import React  from 'react';
 import * as ReactDOM from 'react-dom';
-import GuGuDan from "./GuGuDan";
+import WordRelay from "./WordRelay";
+import {createRoot} from "react-dom/client";
 
-ReactDOM.render(<GuGuDan />, document.querySelector('#root'));
+const rootElement = document.querySelector('#root') as HTMLDivElement;
+const root = createRoot(rootElement);
+
+root.render(
+    <WordRelay />
+);
+
