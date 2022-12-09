@@ -9,7 +9,7 @@ interface Configuration extends WebpackConfiguration {
 }
 
 const config: Configuration = {
-  name: 'rsp-dev',
+  name: 'response-check-dev',
   mode: 'development',
   devtool: 'eval',
   resolve: {
