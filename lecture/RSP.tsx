@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 
-const repCoords = { // 이미지의 좌표
+const rspCoords = { // 이미지의 좌표
     바위: '0',
     가위: '-142px',
     보: '-284px'
@@ -13,7 +13,8 @@ const scores = {
     보: -1
 } as const;
 
-type ImgCoords = typeof repCoords[keyof typeof repCoords];
+type ImgCoords = typeof rspCoords[keyof typeof rspCoords];
+type ImgCoords1 = keyof typeof rspCoords;
 //type imgCoords = '0' | '-42epx' | '-284px';
 /*interface imgCoords {
     바위: '0',
@@ -22,17 +23,18 @@ type ImgCoords = typeof repCoords[keyof typeof repCoords];
 }*/
 
 const computerChoice = (imgCoords: ImgCoords) => {
-    return (Object.keys(repCoords) as ['바위', '가위', '보']).find((k) => {
-        return repCoords[k] === imgCoords;
+    return (Object.keys(rspCoords) as ['바위', '가위', '보']).find((k) => {
+        return rspCoords[k] === imgCoords;
     });
 }
 
 const RSP = () => {
-    const [imgCoord, setImgCoord] = useState(repCoords.바위);
+    const [imgCoord, setImgCoord] = useState<ImgCoords>(rspCoords.바위);
     const [result, setResult] = useState('');
     const [score, setScore] = useState(0);
 
-    const interval = useRef();
+    const interval = useRef<number>();
+    const clicked = useRef<boolean>(false);
 
     useEffect(() => { // componentDidMount, componentDidUpdate 역할(1대1 대응은 아님)
         console.log('다시 실행');
@@ -53,25 +55,29 @@ const RSP = () => {
         }
     };
 
-    const onClickBtn = (choice) => () => {
-        clearInterval(interval.current);
-        const myScore = scores[choice];
-        const cpuScore = setScore(computerChoice(imgCoord));
-        const diff = myScore - cpuScore;
+    // 아래 return 함수 onclick 에 파라메터가 있다 이런경구 이렇게 고차함수 () => () 만들어 주어야 한다.
+    const onClickBtn = (choice: ImgCoords1) => () => {
+        if (!clicked.current) {
+            clearInterval(interval.current);
+            clicked.current = true;
+            const myScore = scores[choice];
+            const cpuScore = scores[computerChoice(imgCoord) as ImgCoords1];
+            const diff = myScore - cpuScore;
 
-        if (diff === 0) {
-            setResult('비겼습니다!');
-        } else if ([-1, 2].includes(diff)) {
-            setResult('이겼습니다!');
-            setScore((prevScore) => prevScore + 1);
-        } else {
-            setResult('졌습니다!');
-            setScore((prevScore) => prevScore - 1);
+            if (diff === 0) {
+                setResult('비겼습니다!');
+            } else if ([-1, 2].includes(diff)) {
+                setResult('이겼습니다!');
+                setScore((prevScore) => prevScore + 1);
+            } else {
+                setResult('졌습니다!');
+                setScore((prevScore) => prevScore - 1);
+            }
+            setTimeout(() => {
+                interval.current = window.setInterval(changeHand, 100);
+                clicked.current = false;
+            }, 1000);
         }
-        setTimeout(() => {
-            interval.current = window.setInterval(changeHand, 100);
-            clicked.current = false;
-        }, 1000);
     }
 
 
