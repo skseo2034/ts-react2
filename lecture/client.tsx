@@ -5,11 +5,12 @@ import {createRoot} from "react-dom/client";
 import NumberBaseball from "./NumberBaseball";
 import ResponseCheck from "./ResponseCheck";
 import Lotto from "./Lotto";
+import TicTacToe from "./TicTacToe";
 
 const rootElement = document.querySelector('#root') as HTMLDivElement;
 const root = createRoot(rootElement);
 
 root.render(
-    <Lotto />
+    <TicTacToe />
 );
 
