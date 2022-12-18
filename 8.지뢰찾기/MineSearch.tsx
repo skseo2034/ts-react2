@@ -20,6 +20,7 @@ export const CODE = {
 } as const;
 
 export type Codes = typeof CODE[keyof typeof CODE];
+//export type Codes = -7 | -1 | -2 | -3 | -4 | -5 | -6 | 0;
 interface Context {
     tableData: Codes[][],
     halted: boolean,
